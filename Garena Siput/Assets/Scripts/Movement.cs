@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
@@ -8,45 +9,41 @@ public class Movement : MonoBehaviour
     public float moveSpeed = 3;
     public bool universalCanMove;
     public bool inverted = false;
-    private Vector2 movement;
-    private float horizontal;
-    private float vertical;
+
     public Rigidbody2D rb;
 
     public Animator animatorWalk;
     private Vector2 lastMoveDirection;
     private bool facingLeft = true;
-    private Vector2 input;
+    public Vector2 input;
 
     private float MoveX;
     private float MoveY;
 
+    InputAction playerInputAction;
+    private void Awake()
+    {
+        playerInputAction = new(); 
+    }
+
+    private void OnEnable()
+    {
+        playerInputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputAction.Disable();
+    }
+
     private void Start()
     {
+        Debug.Log(playerInputAction.activeControl);
     }
 
     private void Update()
     {
-        //if (universalCanMove == true)
-        //{
-        //    if (inverted)
-        //    {
-        //        horizontal = -Input.GetAxisRaw(playerInputPrefix + "horizontal");
-        //        vertical = -Input.GetAxisRaw(playerInputPrefix + "vertical");
-        //        movement = new Vector3(horizontal, vertical, 0f).normalized;
-        //        //transform.Translate(new Vector2(horizontal, vertical).normalized * moveSpeed * Time.deltaTime);
-        //    }
-        //    else if (!inverted)
-        //    {
-        //        horizontal = Input.GetAxisRaw(playerInputPrefix + "horizontal");
-        //        vertical = Input.GetAxisRaw(playerInputPrefix + "vertical");
-        //        movement = new Vector3(horizontal, vertical, 0f).normalized;
-        //        //transform.Translate(new Vector2(horizontal, vertical).normalized * moveSpeed * Time.deltaTime);
-        //    }
 
-        //}
-
-        ProcessInputs();
         Animate();
         if(input.x < 0f && !facingLeft || input.x > 0 && facingLeft)
         {
@@ -60,33 +57,49 @@ public class Movement : MonoBehaviour
         rb.velocity = input * moveSpeed;
     }
 
-    void ProcessInputs()
+    public void OnMove(InputValue value)
     {
+        Debug.Log(value.Get<Vector2>());
         if (universalCanMove)
         {
-
-
-
+            MoveX = value.Get<Vector2>().x;
+            MoveY = value.Get<Vector2>().y;
+            input = new Vector2(MoveX, MoveY);
             if (inverted)
             {
-                MoveX = Input.GetAxisRaw(playerInputPrefix+"Horizontal");
-                MoveY = Input.GetAxisRaw(playerInputPrefix + "Vertical");
-                input.x = Input.GetAxisRaw(playerInputPrefix + "Horizontal");
-                input.y = Input.GetAxisRaw(playerInputPrefix + "Vertical");
+                input *= -1;
             }
-            else if(!inverted)
-            {
-                MoveX = Input.GetAxisRaw(playerInputPrefix + "Horizontal");
-                MoveY = Input.GetAxisRaw(playerInputPrefix + "Vertical");
-                input.x = Input.GetAxisRaw(playerInputPrefix + "Horizontal");
-                input.y = Input.GetAxisRaw(playerInputPrefix + "Vertical");
-            }
-
         }
 
 
 
         if((MoveX == 0 && MoveY == 0) && (input.x !=0 || input.y != 0)){
+            lastMoveDirection = input;
+        }
+
+
+        input.Normalize();
+
+    }
+
+    public void OnMovePlayer2(InputValue value)
+    {
+        Debug.Log(value.Get<Vector2>());
+        if (universalCanMove)
+        {
+            MoveX = value.Get<Vector2>().x;
+            MoveY = value.Get<Vector2>().y;
+            input = new Vector2(MoveX, MoveY);
+            if (inverted)
+            {
+                input *= -1;
+            }
+        }
+
+
+
+        if ((MoveX == 0 && MoveY == 0) && (input.x != 0 || input.y != 0))
+        {
             lastMoveDirection = input;
         }
 

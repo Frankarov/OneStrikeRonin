@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class BlinkSkill : MonoBehaviour
 {
@@ -20,6 +21,22 @@ public class BlinkSkill : MonoBehaviour
 
     public Animator animatorBlink;
     public AudioSource teleportSFX;
+    InputAction playerInputAction;
+    public Movement movement;
+    private void Awake()
+    {
+        playerInputAction = new();
+    }
+
+    private void OnEnable()
+    {
+        playerInputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputAction.Disable();
+    }
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,29 +46,10 @@ public class BlinkSkill : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxisRaw(playerInputPrefix + "Horizontal");
-        float vertical = Input.GetAxisRaw(playerInputPrefix + "Vertical");
 
-        dashDirection = new Vector3(horizontal, vertical, 0f).normalized;
+        dashDirection = movement.input;
 
-        if (canBlink)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift) && playerInputPrefix == "Player1")
-            {
-                StartCoroutine(BlinkCoroutine());
-                imageSkill.fillAmount = 0;
-                animatorBlink.SetBool("Blink", true);
-                teleportSFX.Play();
 
-            }
-            else if (Input.GetKeyDown(KeyCode.PageDown) && playerInputPrefix == "Player2")
-            {
-                StartCoroutine(BlinkCoroutine());
-                imageSkill.fillAmount = 0;
-                animatorBlink.SetBool("Blink", true);
-                teleportSFX.Play();
-            }
-        }
 
         if (!canBlink)
         {
@@ -60,6 +58,27 @@ public class BlinkSkill : MonoBehaviour
             {
                 imageSkill.fillAmount = 1;
             }
+        }
+    }
+
+    public void OnBlink()
+    {
+        if (canBlink)
+        {
+            StartCoroutine(BlinkCoroutine());
+            imageSkill.fillAmount = 0;
+            animatorBlink.SetBool("Blink", true);
+            teleportSFX.Play();
+        }
+    }
+    public void OnBlinkPlayer2()
+    {
+        if (canBlink)
+        {
+            StartCoroutine(BlinkCoroutine());
+            imageSkill.fillAmount = 0;
+            animatorBlink.SetBool("Blink", true);
+            teleportSFX.Play();
         }
     }
 

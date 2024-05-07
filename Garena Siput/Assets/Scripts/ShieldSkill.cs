@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class ShieldSkill : MonoBehaviour
 {
@@ -18,6 +19,21 @@ public class ShieldSkill : MonoBehaviour
     private float shieldTimerUI;
     private float shieldCooldownUI = 5f;
     private bool canShield = true;
+    InputAction playerInputAction;
+    private void Awake()
+    {
+        playerInputAction = new();
+    }
+
+    private void OnEnable()
+    {
+        playerInputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputAction.Disable();
+    }
     private void Start()
     {
         imageSkill.fillAmount = 1;
@@ -25,18 +41,6 @@ public class ShieldSkill : MonoBehaviour
 
     void Update()
     {
-        if (!universalIsShieldActive && cooldownTimer <= 0f)
-        {
-            if (playerInputPrefix == "Player1" && Input.GetKeyDown(KeyCode.Q))
-            {
-                ActivateShield();
-            }
-
-            if (playerInputPrefix == "Player2" && Input.GetKeyDown(KeyCode.End))
-            {
-                ActivateShield();
-            }
-        }
 
         if(cooldownDuration <= 0f)
         {
@@ -74,8 +78,13 @@ public class ShieldSkill : MonoBehaviour
 
     }
 
-    void ActivateShield()
+    public void OnShield()
     {
+        if(universalIsShieldActive && cooldownTimer > 0f)
+        {
+            return;
+        }
+
         canShield = false;
         universalIsShieldActive = true;
         shieldTimer = shieldDuration;
@@ -83,8 +92,22 @@ public class ShieldSkill : MonoBehaviour
         GameObject shield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
         shield.transform.parent = transform;
         imageSkill.fillAmount = 0f;
+    }
+    
+    public void OnShieldPlayer2()
+    {
+        if(universalIsShieldActive && cooldownTimer > 0f)
+        {
+            return;
+        }
 
-
+        canShield = false;
+        universalIsShieldActive = true;
+        shieldTimer = shieldDuration;
+        imageSkill.fillAmount = 0;
+        GameObject shield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+        shield.transform.parent = transform;
+        imageSkill.fillAmount = 0f;
     }
 
     public void DeactivateShield()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class DashSkill : MonoBehaviour
 {
@@ -29,6 +30,21 @@ public class DashSkill : MonoBehaviour
     public AudioSource shieldBreak;
     public AudioSource dashSwoosh;
     public AudioSource Parry;
+    InputAction playerInputAction;
+    private void Awake()
+    {
+        playerInputAction = new();
+    }
+
+    private void OnEnable()
+    {
+        playerInputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputAction.Disable();
+    }
     private void Start()
     {
         imageSkill.fillAmount = 1;
@@ -36,18 +52,6 @@ public class DashSkill : MonoBehaviour
 
     private void Update()
     {
-
-        if (canDash)
-        {
-            if (Input.GetKeyDown(KeyCode.E) && playerInputPrefix == "Player1")
-            {
-                StartDash();
-            }
-            else if (Input.GetKeyDown(KeyCode.Delete) && playerInputPrefix == "Player2")
-            {
-                StartDash();
-            }
-        }
 
         if (isDashing)
         {
@@ -72,7 +76,21 @@ public class DashSkill : MonoBehaviour
 
     }
 
-    private void StartDash()
+    public void OnDash()
+    {
+        if (canDash)
+        {
+            isDashing = true;
+            Invoke("StopDash", dashDuration);
+            movementScript.universalCanMove = false;
+            canDash = false;
+            animationDash.SetTrigger("Dash");
+            imageSkill.fillAmount = 0f;
+
+        }
+
+    }
+    public void OnDashPlayer2()
     {
         if (canDash)
         {
@@ -87,13 +105,11 @@ public class DashSkill : MonoBehaviour
 
     }
 
+
     private void Dash()
     {
-
-        float horizontal = Input.GetAxisRaw(playerInputPrefix + "Horizontal");
-        float vertical = Input.GetAxisRaw(playerInputPrefix + "Vertical");
         dashSwoosh.Play();
-        Vector3 dashDirection = new Vector3(horizontal, vertical, 0f).normalized;
+        Vector3 dashDirection = movementScript.input;
         transform.Translate(dashDirection * dashSpeed * Time.deltaTime);
     }
 

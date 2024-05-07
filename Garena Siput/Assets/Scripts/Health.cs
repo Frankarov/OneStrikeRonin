@@ -39,7 +39,7 @@ public class Health : MonoBehaviour
 
     private void UpdateLifeText()
     {
-        lifeText.text = $"{currentLives}";
+        lifeText.text = currentLives.ToString();
     }
 
     public void TakeDamage()
@@ -63,7 +63,7 @@ public class Health : MonoBehaviour
 
         lifeText.color = Color.white;
 
-        StartCoroutine(ShakeText());
+        //StartCoroutine(ShakeText());
 
     }
 

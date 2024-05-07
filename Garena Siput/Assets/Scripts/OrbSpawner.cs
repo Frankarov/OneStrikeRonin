@@ -6,6 +6,7 @@ public class OrbSpawner : MonoBehaviour
 {
     public GameObject orbPrefab;
     public float delay;
+    public Vector2 spawnPos;
 
     private void Start()
     {
@@ -14,7 +15,13 @@ public class OrbSpawner : MonoBehaviour
 
     private void SpawnOrb()
     {
-        GameObject orb = Instantiate(orbPrefab);
+        spawnPos =(Vector2) transform.position + Random.insideUnitCircle * 5;
+        Debug.Log(spawnPos);
+        GameObject orb = Instantiate(orbPrefab, spawnPos, Quaternion.identity);
+    }
 
+    private void Update()
+    {
+        spawnPos = (Vector2)transform.position + Random.insideUnitCircle ;
     }
 }

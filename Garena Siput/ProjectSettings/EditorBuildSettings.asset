@@ -14,4 +14,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Playground.unity
     guid: 8f6c02aec0e406e4fb70df6667e92dcc
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: bf5ddb75cd34a674c84d84b57f0ac96c, type: 2}
