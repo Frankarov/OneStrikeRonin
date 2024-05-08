@@ -16,7 +16,6 @@ public class OrbSpawner : MonoBehaviour
     private void SpawnOrb()
     {
         spawnPos =(Vector2) transform.position + Random.insideUnitCircle * 5;
-        Debug.Log(spawnPos);
         GameObject orb = Instantiate(orbPrefab, spawnPos, Quaternion.identity);
     }
 

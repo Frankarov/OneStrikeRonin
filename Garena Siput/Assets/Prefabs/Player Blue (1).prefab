@@ -816,7 +816,7 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: aa6de92b-ad53-4c31-a62b-797903900fc2
     m_ActionName: Player1/Move[/XInputControllerWindows/leftStick]
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
   m_SplitScreenIndex: -1

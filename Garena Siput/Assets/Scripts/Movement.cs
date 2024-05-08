@@ -59,7 +59,6 @@ public class Movement : MonoBehaviour
 
     public void OnMove(InputValue value)
     {
-        Debug.Log(value.Get<Vector2>());
         if (universalCanMove)
         {
             MoveX = value.Get<Vector2>().x;

@@ -7375,7 +7375,15 @@ MonoBehaviour:
       m_Id: b7b3c310-57e6-4aff-b85a-82a52d4b214d
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 259103f4-b231-4195-8115-0ade7ce2a6bb
+        m_Path: <Keyboard>/enter
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 8423975935420677671, guid: 3cfb43fb7004c644aa0236816c96c449, type: 3}
   m_PlayerPrefab: {fileID: 3510356619071724835, guid: 3080f0d4a12380f4aa8291a2af9de456, type: 3}
@@ -7397,7 +7405,7 @@ Transform:
   m_GameObject: {fileID: 1611937814}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1683.3434, y: 870.344, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9374,6 +9382,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1564032336}
+    - target: {fileID: 326913909571267343, guid: 2a07a7c7f70e13040bb25da5418b99c4, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Gamepad
+      objectReference: {fileID: 0}
     - target: {fileID: 1030732812760656159, guid: 2a07a7c7f70e13040bb25da5418b99c4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.82
